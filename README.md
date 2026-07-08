@@ -62,18 +62,35 @@ Skipped (not enough time):
 ## 🧪 Testing PawPal+
 
 ```bash
-# Run the full test suite:
-pytest
-
-# Run with coverage:
-pytest --cov
+python -m pytest
 ```
+
+The test suite covers:
+- **Sorting correctness** — tasks come back in chronological order by time
+- **Recurrence logic** — completing a daily task auto-creates the next occurrence
+- **Conflict detection** — scheduler flags two tasks at the same start time
+- **Edge cases** — empty task list, no conflicts, and non-recurring tasks
 
 Sample test output:
 
 ```
-# Paste your pytest output here
+============================= test session starts =============================
+platform win32 -- Python 3.14.5, pytest-9.0.3, pluggy-1.6.0
+rootdir: C:\Users\yohan\Codepath\AI110\ai110-module2show-pawpal-starter
+collected 7 items
+
+tests/test_pawpal.py::test_high_priority_tasks_planned_first PASSED      [ 14%]
+tests/test_pawpal.py::test_sort_by_time_returns_chronological_order PASSED [ 28%]
+tests/test_pawpal.py::test_completing_daily_task_creates_next_occurrence PASSED [ 42%]
+tests/test_pawpal.py::test_generate_schedule_with_no_tasks PASSED        [ 57%]
+tests/test_pawpal.py::test_get_conflicts_detects_same_time PASSED        [ 71%]
+tests/test_pawpal.py::test_get_conflicts_no_conflicts PASSED             [ 85%]
+tests/test_pawpal.py::test_once_task_does_not_recur PASSED               [100%]
+
+============================== 7 passed in 0.06s ==============================
 ```
+
+**Confidence Level: ★★★★☆** — Core scheduling logic is well covered. Duration-based conflict detection and multi-pet edge cases could use more tests.
 
 ## 📐 Smarter Scheduling
 

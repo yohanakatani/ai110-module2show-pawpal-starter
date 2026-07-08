@@ -39,8 +39,9 @@ a dict with a planned list and a skipped list.
 
 **b. Tradeoffs**
 
-- Describe one tradeoff your scheduler makes.
-- Why is that tradeoff reasonable for this scenario?
+The conflict detector only catches tasks at the exact same time. It won't
+flag a 30-minute task at 08:00 and another at 08:15, even though they
+overlap. It's a simplification, but for a pet care app it's good enough.
 
 ---
 

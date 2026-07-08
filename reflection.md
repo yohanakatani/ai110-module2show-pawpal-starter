@@ -4,8 +4,23 @@
 
 **a. Initial design**
 
-- Briefly describe your initial UML design.
-- What classes did you include, and what responsibilities did you assign to each?
+Before writing any code, I thought about what a pet owner would actually
+need to do with this app. I landed on three core actions:
+
+1. **Add pet care tasks** — The owner can add tasks like "morning walk" or
+   "give medication," along with how long each one takes and how important
+   it is. Nothing fancy, just a simple way to build up a list of things
+   that need to happen.
+
+2. **Generate a daily schedule** — Once the tasks are in, the owner tells
+   the app how much time they have, and the app puts together a plan for
+   the day. It puts the most important tasks first and stops when time runs
+   out.
+
+3. **See the plan and understand it** — The schedule shows up as a clear
+   list with times, so the owner knows exactly what to do and when. If
+   something got left out because there wasn't enough time, the app says so,
+   so there are no surprises.
 
 **b. Design changes**
 

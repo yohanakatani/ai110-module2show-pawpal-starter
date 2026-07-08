@@ -29,17 +29,14 @@ When the agent suggested a more Pythonic version of `get_conflicts()` using `ite
 
 ## Prompt Comparison (SF11)
 
-> Compare two different prompts (or two different models) on the same task.
+**Prompt given to both models:** "Write a Python method on a Task dataclass that returns the next scheduled occurrence. The task has a frequency field: daily, weekly, or once. Return a new Task with the updated due date, or None if it doesn't recur."
 
-| | Option A | Option B |
-|-|----------|----------|
-| **Model / tool used** | | |
-| **Prompt** | | |
-| **Response summary** | | |
-| **What was useful** | | |
-| **Problems noticed** | | |
-| **Decision** | | |
+| | Claude | Codex |
+|-|--------|-------|
+| **Approach** | Manually constructs `Task(...)` with all fields | Uses `dataclasses.replace(self, ...)` to clone the task |
+| **Return type** | `"Task"` | `Optional["Task"]` |
+| **What was useful** | Simple, no extra imports, matches the rest of the file | `replace()` is safer if fields change; `Optional` is more accurate |
+| **Problems** | Fragile if Task gains new fields | Adds two imports for a small method |
+| **Decision** | Used this | Did not use |
 
-**Which approach did you use in your final implementation and why?**
-
-<!-- Your conclusion -->
+I went with Claude's version because it matched the style already in the file and Task fields weren't changing. In a larger project I'd prefer Codex's approach.

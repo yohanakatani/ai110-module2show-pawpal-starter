@@ -12,9 +12,11 @@ class Task:
     completed: bool = False
 
     def complete(self):
+        """Mark this task as done."""
         self.completed = True
 
     def __repr__(self):
+        """Return a readable string representation of the task."""
         status = "done" if self.completed else "pending"
         return f"{self.title} ({self.duration_minutes}min, {self.priority}, {status})"
 
@@ -27,12 +29,15 @@ class Pet:
     tasks: List[Task] = field(default_factory=list)
 
     def add_task(self, task: Task):
+        """Add a task to this pet's task list."""
         self.tasks.append(task)
 
     def get_pending(self) -> List[Task]:
+        """Return all tasks that are not yet completed."""
         return [t for t in self.tasks if not t.completed]
 
     def get_completed(self) -> List[Task]:
+        """Return all tasks that have been completed."""
         return [t for t in self.tasks if t.completed]
 
 
@@ -44,9 +49,11 @@ class Owner:
     pets: List[Pet] = field(default_factory=list)
 
     def add_pet(self, pet: Pet):
+        """Add a pet to this owner's pet list."""
         self.pets.append(pet)
 
     def get_all_tasks(self) -> List[Task]:
+        """Return all tasks across all pets."""
         return [task for pet in self.pets for task in pet.tasks]
 
 
@@ -75,12 +82,14 @@ class Scheduler:
         return {"planned": planned, "skipped": skipped}
 
     def mark_complete(self, title: str):
+        """Find a task by title and mark it as complete."""
         for task in self.owner.get_all_tasks():
             if task.title == title:
                 task.complete()
                 return
 
     def daily_summary(self) -> str:
+        """Return a formatted string of all pending tasks grouped by pet."""
         lines = [f"Daily plan for {self.owner.name}:"]
         for pet in self.owner.pets:
             lines.append(f"\n  {pet.name} ({pet.species}):")

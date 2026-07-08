@@ -1,6 +1,7 @@
 from dataclasses import dataclass, field
 from datetime import date, timedelta
 from typing import List
+import json
 
 
 @dataclass
@@ -135,6 +136,72 @@ class Scheduler:
         if completed is not None:
             tasks = [t for t in tasks if t.completed == completed]
         return tasks
+
+    def find_next_slot(self, duration_minutes: int) -> str:
+        """Return the earliest HH:MM slot that doesn't conflict with existing tasks."""
+        booked = {t.time for pet in self.owner.pets for t in pet.tasks if not t.completed}
+        hour, minute = 7, 0
+        while hour < 21:
+            slot = f"{hour:02d}:{minute:02d}"
+            if slot not in booked:
+                return slot
+            minute += duration_minutes
+            if minute >= 60:
+                hour += minute // 60
+                minute = minute % 60
+        return "No available slot found"
+
+    def save_to_json(self, filepath: str):
+        """Serialize the owner, pets, and tasks to a JSON file."""
+        data = {
+            "owner": {
+                "name": self.owner.name,
+                "available_minutes": self.owner.available_minutes,
+                "pets": [
+                    {
+                        "name": pet.name,
+                        "species": pet.species,
+                        "tasks": [
+                            {
+                                "title": t.title,
+                                "duration_minutes": t.duration_minutes,
+                                "priority": t.priority,
+                                "frequency": t.frequency,
+                                "completed": t.completed,
+                                "time": t.time,
+                                "due_date": t.due_date.isoformat(),
+                            }
+                            for t in pet.tasks
+                        ],
+                    }
+                    for pet in self.owner.pets
+                ],
+            }
+        }
+        with open(filepath, "w") as f:
+            json.dump(data, f, indent=2)
+
+    @classmethod
+    def load_from_json(cls, filepath: str) -> "Scheduler":
+        """Reconstruct a Scheduler from a JSON file."""
+        with open(filepath) as f:
+            data = json.load(f)
+        o = data["owner"]
+        owner = Owner(name=o["name"], available_minutes=o["available_minutes"])
+        for p in o["pets"]:
+            pet = Pet(name=p["name"], species=p["species"])
+            for t in p["tasks"]:
+                pet.add_task(Task(
+                    title=t["title"],
+                    duration_minutes=t["duration_minutes"],
+                    priority=t["priority"],
+                    frequency=t["frequency"],
+                    completed=t["completed"],
+                    time=t["time"],
+                    due_date=date.fromisoformat(t["due_date"]),
+                ))
+            owner.add_pet(pet)
+        return cls(owner)
 
     def daily_summary(self) -> str:
         """Return a formatted string of all pending tasks grouped by pet."""

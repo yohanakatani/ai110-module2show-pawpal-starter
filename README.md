@@ -68,6 +68,44 @@ Skipped (not enough time):
   Brushing               20 min   low
 ```
 
+## 💾 Data Persistence
+
+PawPal+ saves and loads all data to `data.json` using custom dictionary
+serialization — no external libraries required.
+
+**Workflow:**
+1. After building a schedule, call `scheduler.save_to_json("data.json")` to persist the current state.
+2. On the next run, call `Scheduler.load_from_json("data.json")` to restore all owners, pets, and tasks exactly as they were.
+
+**Files modified:** `pawpal_system.py` (added `save_to_json` and `load_from_json` to `Scheduler`)
+
+**JSON format:**
+```json
+{
+  "owner": {
+    "name": "Jordan",
+    "available_minutes": 60,
+    "pets": [
+      {
+        "name": "Mochi",
+        "species": "dog",
+        "tasks": [
+          {
+            "title": "Morning walk",
+            "duration_minutes": 30,
+            "priority": "high",
+            "frequency": "daily",
+            "completed": false,
+            "time": "08:00",
+            "due_date": "2026-07-08"
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
 ## 🧪 Testing PawPal+
 
 ```bash

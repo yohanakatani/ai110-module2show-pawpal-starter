@@ -10,15 +10,20 @@
 
 **What task did you give the agent?**
 
-<!-- Describe the goal you asked the agent to accomplish -->
+I asked the agent to help build a complete pet care task scheduler from scratch — including UML design, Python class stubs, scheduling logic, test suite, Streamlit UI wiring, and algorithmic features like sorting, filtering, conflict detection, recurring tasks, and a next-available-slot finder.
 
 **What did the agent do?**
 
-<!-- List the steps the agent took (files edited, commands run, etc.) -->
+- Created `pawpal_system.py` with `Task`, `Pet`, `Owner`, and `Scheduler` classes
+- Implemented `generate_schedule()`, `sort_by_time()`, `filter_tasks()`, `get_conflicts()`, `mark_complete()`, `next_occurrence()`, and `find_next_slot()`
+- Wrote 7 pytest tests in `tests/test_pawpal.py` covering happy paths and edge cases
+- Wired the Streamlit UI in `app.py` to use session state and all Scheduler methods
+- Updated `diagrams/uml.mmd` and created `diagrams/uml_final.mmd` to reflect the final class structure
+- Filled in `reflection.md` and `README.md` throughout the build
 
 **What did you have to verify or fix manually?**
 
-<!-- Describe anything the agent got wrong or that required human review -->
+When the agent suggested a more Pythonic version of `get_conflicts()` using `itertools.combinations` and a nested list comprehension, I reviewed both versions and kept the original. The Pythonic version was harder to read for a human skimming the code, which matters more here than saving two lines. I also reviewed every piece of code before it was written to the file, and approved or modified the preview before confirming.
 
 ---
 

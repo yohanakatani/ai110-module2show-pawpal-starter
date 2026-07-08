@@ -5,6 +5,12 @@ st.set_page_config(page_title="PawPal+", page_icon="🐾", layout="centered")
 
 st.title("🐾 PawPal+")
 
+if "owner" not in st.session_state:
+    st.session_state.owner = None
+
+if "scheduler" not in st.session_state:
+    st.session_state.scheduler = None
+
 st.markdown(
     """
 Welcome to the PawPal+ starter app.

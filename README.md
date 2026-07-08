@@ -22,6 +22,15 @@ Your final app should:
 - Display the plan clearly (and ideally explain the reasoning)
 - Include tests for the most important scheduling behaviors
 
+## ✨ Features
+
+- **Priority scheduling** — high-priority tasks are always planned first
+- **Time-based sorting** — tasks display in chronological order by start time
+- **Conflict warnings** — the app flags two tasks scheduled at the same time
+- **Recurring tasks** — daily and weekly tasks auto-reschedule after completion
+- **Task filtering** — filter by pet name or completion status
+- **Multi-pet support** — one owner can manage tasks across multiple pets
+
 ## Getting started
 
 ### Setup
@@ -103,12 +112,31 @@ tests/test_pawpal.py::test_once_task_does_not_recur PASSED               [100%]
 
 ## 📸 Demo Walkthrough
 
-Describe your app in numbered steps so a reader can follow along without watching a video:
+1. **Set up your profile** — Enter your name, your pet's name, species, and how many minutes you have today. Click "Set up owner & pet."
+2. **Add tasks** — Enter a task title, duration, priority, start time, and frequency. Click "Add task." Tasks appear in the table sorted by time automatically.
+3. **Watch for conflicts** — If two tasks share the same start time, a warning banner appears immediately below the table.
+4. **Generate your schedule** — Click "Generate schedule." High-priority tasks are planned first. Tasks that don't fit in your time budget are listed under "Skipped."
+5. **Recurring tasks** — Daily and weekly tasks auto-create their next occurrence when marked complete, so you never lose track.
 
-1. <!-- Describe this step -->
-2. <!-- Describe this step -->
-3. <!-- Describe this step -->
-4. <!-- Describe this step -->
-5. <!-- Add more steps as needed -->
+**Sample CLI output from `python main.py`:**
 
-**Screenshot or video** *(optional)*: <!-- Insert a screenshot or link to a demo video here -->
+```
+=== Sorted by Time ===
+  07:00  Give medication        10 min  [high]
+  08:00  Morning walk           30 min  [high]
+  09:00  Feeding                10 min  [medium]
+  10:00  Brushing               20 min  [low]
+
+=== Mochi's Tasks Only ===
+  Morning walk           [high]
+  Give medication        [high]
+  Brushing               [low]
+
+=== Pending Tasks Only ===
+  Morning walk           [high]
+  Brushing               [low]
+  Feeding                [medium]
+
+=== Completed Tasks ===
+  Give medication        [done]
+```

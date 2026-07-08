@@ -20,7 +20,13 @@ jordan.add_pet(luna)
 scheduler = Scheduler(jordan)
 result = scheduler.generate_schedule()
 
-print("=== Today's Schedule ===")
-print(scheduler.daily_summary())
-print("\nPlanned tasks:", result["planned"])
-print("Skipped tasks:", result["skipped"])
+print(f"Today's Schedule — {jordan.name} ({jordan.available_minutes} min available)")
+for pet in jordan.pets:
+    print(f"\n{pet.name} ({pet.species})")
+    for task in pet.get_pending():
+        print(f"  {task.title:<22} {task.duration_minutes} min   {task.priority}")
+
+if result["skipped"]:
+    print("\nSkipped (not enough time):")
+    for task in result["skipped"]:
+        print(f"  {task.title:<22} {task.duration_minutes} min   {task.priority}")

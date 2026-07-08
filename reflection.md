@@ -24,8 +24,9 @@ need to do with this app. I landed on three core actions:
 
 **b. Design changes**
 
-- Did your design change during implementation?
-- If yes, describe at least one change and why you made it.
+I removed an unused `field` import that snuck in by default. I also added
+a return type to `generate_schedule()` so the UI knows what to expect —
+a dict with a planned list and a skipped list.
 
 ---
 

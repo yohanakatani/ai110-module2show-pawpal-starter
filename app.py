@@ -54,15 +54,25 @@ else:
         st.session_state.owner.pets[0].add_task(task)
         st.success(f"Added: {task_title}")
 
-    all_tasks = st.session_state.scheduler.sort_by_time()
+    all_tasks = st.session_state.scheduler.sort_by_priority_then_time()
     if all_tasks:
-        st.write("Current tasks (sorted by time):")
+        st.write("Current tasks (sorted by priority, then time):")
+        result = st.session_state.scheduler.generate_schedule()
+        planned_titles = {t.title for t in result["planned"]}
+        skipped_titles = {t.title for t in result["skipped"]}
+        def task_status(t):
+            if t.title in planned_titles:
+                return "planned"
+            elif t.title in skipped_titles:
+                return "skipped"
+            return "pending"
         st.table([{
             "title": t.title,
             "time": t.time,
-            "duration": t.duration_minutes,
+            "duration (min)": t.duration_minutes,
             "priority": t.priority,
-            "frequency": t.frequency
+            "frequency": t.frequency,
+            "status": task_status(t)
         } for t in all_tasks])
 
         conflicts = st.session_state.scheduler.get_conflicts()

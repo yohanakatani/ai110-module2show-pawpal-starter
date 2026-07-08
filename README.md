@@ -68,6 +68,34 @@ Skipped (not enough time):
   Brushing               20 min   low
 ```
 
+## Output Formatting
+
+CLI output uses `tabulate` (simple format) to present the daily schedule as a structured table. Tasks are sorted by priority then time, with a Status column showing whether each task was planned, skipped, or pending.
+
+**Libraries used:** `tabulate>=0.9` (see `requirements.txt`)
+
+**Functions:** `main.py` calls `scheduler.sort_by_priority_then_time()` and `scheduler.generate_schedule()` to build the rows, then passes them to `tabulate()`.
+
+Sample CLI output from `python main.py`:
+
+```
+Today's Schedule -- Jordan (60 min available)
+
+Time    Task             Duration    Priority    Frequency    Status
+------  ---------------  ----------  ----------  -----------  --------
+07:00   Give medication  10 min      high        daily        planned
+08:00   Morning walk     30 min      high        daily        planned
+09:00   Feeding          10 min      medium      daily        planned
+10:00   Brushing         20 min      low         weekly       skipped
+
+Skipped (not enough time):
+Task      Duration    Priority
+--------  ----------  ----------
+Brushing  20 min      low
+```
+
+The Streamlit UI task table also includes a Status column, updated live each time a task is added.
+
 ## Priority-Based Scheduling
 
 Tasks are sorted by priority first (high → medium → low), then by scheduled

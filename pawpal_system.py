@@ -100,6 +100,13 @@ class Scheduler:
         """Return all pending tasks sorted by scheduled time (HH:MM)."""
         return sorted(self.owner.get_all_tasks(), key=lambda t: t.time)
 
+    def sort_by_priority_then_time(self) -> List[Task]:
+        """Sort tasks by priority first (high to low), then by scheduled time."""
+        return sorted(
+            self.owner.get_all_tasks(),
+            key=lambda t: (self.PRIORITY_ORDER.get(t.priority, 99), t.time)
+        )
+
     def mark_complete(self, title: str):
         """Mark a task complete and auto-schedule the next occurrence if recurring."""
         for pet in self.owner.pets:

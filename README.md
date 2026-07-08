@@ -68,6 +68,28 @@ Skipped (not enough time):
   Brushing               20 min   low
 ```
 
+## 🏆 Priority-Based Scheduling
+
+Tasks are sorted by priority first (high → medium → low), then by scheduled
+time as a tiebreaker. This ensures critical tasks like medication are always
+surfaced before lower-priority ones, regardless of when they're scheduled.
+
+**Method:** `Scheduler.sort_by_priority_then_time()`
+
+```
+=== Sorted by Time Only ===
+  07:00  Brushing               [low]
+  07:30  Feeding                [medium]
+  08:00  Give medication        [high]
+  09:00  Morning walk           [high]
+
+=== Sorted by Priority, then Time ===
+  08:00  Give medication        [high]
+  09:00  Morning walk           [high]
+  07:30  Feeding                [medium]
+  07:00  Brushing               [low]
+```
+
 ## 💾 Data Persistence
 
 PawPal+ saves and loads all data to `data.json` using custom dictionary

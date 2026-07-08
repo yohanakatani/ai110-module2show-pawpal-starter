@@ -10,6 +10,7 @@ class Task:
     priority: str
     frequency: str = "daily"
     completed: bool = False
+    time: str = "00:00"
 
     def complete(self):
         """Mark this task as done."""
@@ -81,12 +82,25 @@ class Scheduler:
                 skipped.append(task)
         return {"planned": planned, "skipped": skipped}
 
+    def sort_by_time(self) -> List[Task]:
+        """Return all pending tasks sorted by scheduled time (HH:MM)."""
+        return sorted(self.owner.get_all_tasks(), key=lambda t: t.time)
+
     def mark_complete(self, title: str):
         """Find a task by title and mark it as complete."""
         for task in self.owner.get_all_tasks():
             if task.title == title:
                 task.complete()
                 return
+
+    def filter_tasks(self, pet_name: str = None, completed: bool = None) -> List[Task]:
+        """Filter tasks by pet name and/or completion status."""
+        tasks = self.owner.get_all_tasks()
+        if pet_name:
+            tasks = [t for pet in self.owner.pets if pet.name == pet_name for t in pet.tasks]
+        if completed is not None:
+            tasks = [t for t in tasks if t.completed == completed]
+        return tasks
 
     def daily_summary(self) -> str:
         """Return a formatted string of all pending tasks grouped by pet."""

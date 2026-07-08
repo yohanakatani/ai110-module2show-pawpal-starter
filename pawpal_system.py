@@ -1,4 +1,4 @@
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from typing import List
 
 
@@ -26,5 +26,6 @@ class Scheduler:
         self.owner = owner
         self.tasks = tasks
 
-    def generate_schedule(self):
+    def generate_schedule(self) -> dict:
+        """Returns {"planned": [Task, ...], "skipped": [Task, ...]}"""
         pass

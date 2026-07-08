@@ -1,4 +1,5 @@
 from dataclasses import dataclass, field
+from datetime import date, timedelta
 from typing import List
 
 
@@ -11,10 +12,22 @@ class Task:
     frequency: str = "daily"
     completed: bool = False
     time: str = "00:00"
+    due_date: date = field(default_factory=date.today)
 
     def complete(self):
         """Mark this task as done."""
         self.completed = True
+
+    def next_occurrence(self) -> "Task":
+        """Return a new Task scheduled for the next occurrence based on frequency."""
+        if self.frequency == "daily":
+            next_date = self.due_date + timedelta(days=1)
+        elif self.frequency == "weekly":
+            next_date = self.due_date + timedelta(weeks=1)
+        else:
+            return None
+        return Task(self.title, self.duration_minutes, self.priority,
+                    self.frequency, completed=False, time=self.time, due_date=next_date)
 
     def __repr__(self):
         """Return a readable string representation of the task."""
@@ -87,11 +100,15 @@ class Scheduler:
         return sorted(self.owner.get_all_tasks(), key=lambda t: t.time)
 
     def mark_complete(self, title: str):
-        """Find a task by title and mark it as complete."""
-        for task in self.owner.get_all_tasks():
-            if task.title == title:
-                task.complete()
-                return
+        """Mark a task complete and auto-schedule the next occurrence if recurring."""
+        for pet in self.owner.pets:
+            for task in pet.tasks:
+                if task.title == title and not task.completed:
+                    task.complete()
+                    next_task = task.next_occurrence()
+                    if next_task:
+                        pet.add_task(next_task)
+                    return
 
     def filter_tasks(self, pet_name: str = None, completed: bool = None) -> List[Task]:
         """Filter tasks by pet name and/or completion status."""

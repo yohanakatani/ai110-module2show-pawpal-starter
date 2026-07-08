@@ -1,8 +1,7 @@
 from pawpal_system import Task, Pet, Owner, Scheduler
 
-# Tasks added out of order by time
 walk = Task("Morning walk", 30, "high", time="08:00")
-meds = Task("Give medication", 10, "high", time="07:00")
+meds = Task("Give medication", 10, "high", frequency="daily", time="07:00")
 grooming = Task("Brushing", 20, "low", frequency="weekly", time="10:00")
 feeding = Task("Feeding", 10, "medium", time="09:00")
 
@@ -20,20 +19,12 @@ jordan.add_pet(luna)
 
 scheduler = Scheduler(jordan)
 
-print("=== Sorted by Time ===")
-for task in scheduler.sort_by_time():
-    print(f"  {task.time}  {task.title:<22} {task.duration_minutes} min  [{task.priority}]")
-
-print("\n=== Mochi's Tasks Only ===")
+print("=== Before completing medication ===")
 for task in scheduler.filter_tasks(pet_name="Mochi"):
-    print(f"  {task.title:<22} [{task.priority}]")
+    print(f"  {task.title:<22} due: {task.due_date}  completed: {task.completed}")
 
-meds.complete()
+scheduler.mark_complete("Give medication")
 
-print("\n=== Pending Tasks Only ===")
-for task in scheduler.filter_tasks(completed=False):
-    print(f"  {task.title:<22} [{task.priority}]")
-
-print("\n=== Completed Tasks ===")
-for task in scheduler.filter_tasks(completed=True):
-    print(f"  {task.title:<22} [done]")
+print("\n=== After completing medication (recurring daily) ===")
+for task in scheduler.filter_tasks(pet_name="Mochi"):
+    print(f"  {task.title:<22} due: {task.due_date}  completed: {task.completed}")

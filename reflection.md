@@ -34,8 +34,12 @@ a dict with a planned list and a skipped list.
 
 **a. Constraints and priorities**
 
-- What constraints does your scheduler consider (for example: time, priority, preferences)?
-- How did you decide which constraints mattered most?
+The scheduler considers two main constraints: available time and task
+priority. Priority came first because missing a high-priority task like
+medication is worse than skipping a low-priority grooming session. Time
+was second — the scheduler fills the day in priority order and stops when
+time runs out. I didn't add preference-based filtering because the app
+didn't need it to be useful.
 
 **b. Tradeoffs**
 
@@ -49,13 +53,22 @@ overlap. It's a simplification, but for a pet care app it's good enough.
 
 **a. How you used AI**
 
-- How did you use AI tools during this project (for example: design brainstorming, debugging, refactoring)?
-- What kinds of prompts or questions were most helpful?
+I used the AI assistant across every phase — drafting the UML, generating
+class stubs, implementing scheduling logic, writing tests, and wiring the
+UI. The most useful prompts were specific ones: asking for "a lightweight
+conflict detection strategy that returns warnings instead of crashing" got
+a much better result than asking for "conflict detection." Asking the AI
+to show me the output before writing it to a file also saved a lot of
+back-and-forth.
 
 **b. Judgment and verification**
 
-- Describe one moment where you did not accept an AI suggestion as-is.
-- How did you evaluate or verify what the AI suggested?
+When the AI suggested a more Pythonic version of get_conflicts() using
+itertools.combinations and a nested list comprehension, I looked at both
+versions and kept the original. The Pythonic one was shorter but harder
+to read at a glance. Since this is a learning project and readability
+matters, that was the right call. I verified by reading both versions
+side by side and asking which one a new reader would understand faster.
 
 ---
 

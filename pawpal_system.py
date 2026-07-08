@@ -110,6 +110,23 @@ class Scheduler:
                         pet.add_task(next_task)
                     return
 
+    def get_conflicts(self) -> List[str]:
+        """Return warning messages for tasks scheduled at the same time."""
+        seen = {}
+        warnings = []
+        for pet in self.owner.pets:
+            for task in pet.tasks:
+                if not task.completed:
+                    key = task.time
+                    if key in seen:
+                        warnings.append(
+                            f"Conflict at {task.time}: '{task.title}' ({pet.name}) "
+                            f"clashes with '{seen[key][0]}' ({seen[key][1]})"
+                        )
+                    else:
+                        seen[key] = (task.title, pet.name)
+        return warnings
+
     def filter_tasks(self, pet_name: str = None, completed: bool = None) -> List[Task]:
         """Filter tasks by pet name and/or completion status."""
         tasks = self.owner.get_all_tasks()

@@ -22,7 +22,7 @@ Your final app should:
 - Display the plan clearly (and ideally explain the reasoning)
 - Include tests for the most important scheduling behaviors
 
-## ✨ Features
+## Features
 
 - **Priority scheduling** — high-priority tasks are always planned first
 - **Time-based sorting** — tasks display in chronological order by start time
@@ -51,7 +51,7 @@ pip install -r requirements.txt
 6. Connect your logic to the Streamlit UI in `app.py`.
 7. Refine UML so it matches what you actually built.
 
-## 🖥️ Sample Output
+## Sample Output
 
 ```
 Today's Schedule - Jordan (60 min available)
@@ -68,7 +68,7 @@ Skipped (not enough time):
   Brushing               20 min   low
 ```
 
-## 🏆 Priority-Based Scheduling
+## Priority-Based Scheduling
 
 Tasks are sorted by priority first (high → medium → low), then by scheduled
 time as a tiebreaker. This ensures critical tasks like medication are always
@@ -90,7 +90,7 @@ surfaced before lower-priority ones, regardless of when they're scheduled.
   07:00  Brushing               [low]
 ```
 
-## 💾 Data Persistence
+## Data Persistence
 
 PawPal+ saves and loads all data to `data.json` using custom dictionary
 serialization — no external libraries required.
@@ -128,7 +128,7 @@ serialization — no external libraries required.
 }
 ```
 
-## 🧪 Testing PawPal+
+## Testing PawPal+
 
 ```bash
 python -m pytest
@@ -161,7 +161,7 @@ tests/test_pawpal.py::test_once_task_does_not_recur PASSED               [100%]
 
 **Confidence Level: ★★★★☆** — Core scheduling logic is well covered. Duration-based conflict detection and multi-pet edge cases could use more tests.
 
-## 📐 Smarter Scheduling
+## Smarter Scheduling
 
 | Feature | Method(s) | Notes |
 |---------|-----------|-------|
@@ -170,7 +170,7 @@ tests/test_pawpal.py::test_once_task_does_not_recur PASSED               [100%]
 | Conflict detection | `Scheduler.get_conflicts()` | Returns warning messages for tasks sharing the exact same start time |
 | Recurring tasks | `Task.next_occurrence()`, `Scheduler.mark_complete()` | When a daily/weekly task is completed, a new instance is auto-scheduled using `timedelta` |
 
-## 📸 Demo Walkthrough
+## Demo Walkthrough
 
 1. **Set up your profile** — Enter your name, your pet's name, species, and how many minutes you have today. Click "Set up owner & pet."
 2. **Add tasks** — Enter a task title, duration, priority, start time, and frequency. Click "Add task." Tasks appear in the table sorted by time automatically.
